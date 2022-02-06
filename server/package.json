@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "TripTremp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chaim-shwartz/TripTremp.git"
+  },
+  "author": "Chaim Shwartz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chaim-shwartz/TripTremp/issues"
+  },
+  "homepage": "https://github.com/chaim-shwartz/TripTremp#readme",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.2"
+  }
+}
