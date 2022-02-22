@@ -1,5 +1,5 @@
 import React from "react";
-import '../YourTripsCard.css'
+import '../styles/YourTripsCard.css'
 
 function YourTripsCard(){
     return(

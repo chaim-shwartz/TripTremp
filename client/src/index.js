@@ -1,15 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import HomePage from './HomePage';
+import './styles/index.css'
+import HomePage from './components/HomePage';
+import LoginPage from './components/LoginPage';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SignUpPage from './components/SignUpPage';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <HomePage />
-  </React.StrictMode>,
+  <Router>
+
+    <Routes>
+      <Route path="/" element={<HomePage/>} />
+      <Route path="/login" element={<LoginPage/>} />
+      <Route path="/signup" element={<SignUpPage/>} />
+
+    </Routes>
+    
+
+ </Router>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

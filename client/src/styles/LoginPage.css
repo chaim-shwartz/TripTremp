@@ -1,0 +1,104 @@
+body{
+    min-width: 500px;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Rubik', sans-serif;
+    background-color: #F5EEDC;
+    text-align: center;
+}
+
+h1{
+    font-size: 6vmin;
+    color: #6e5736;
+    margin: 0;
+    margin-bottom: 6%;
+    text-shadow: 2px 2px 6px #72727267;
+}
+
+
+.loginBox{
+    background-color: #e9d8be;
+    margin: 10vh 10vw;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    width: 80%;    
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px 3px #888888;
+    margin: auto;
+}
+
+.loginBox button{
+    border-radius: 8px;
+    font-size: max(1.8vmax,15px);
+    background-color: #e79d90;
+    color: #6e5736;
+    font-weight: bold;
+    max-height: 40px;
+    box-shadow: 0px 0px 8px 3px #72727267;
+    border-width: 1px;
+    border-color: #6e57367c;
+    margin: 3%;
+}
+
+.loginBox input{
+    width: 73%;
+    /* height: 2.5vmax; */
+    min-height: 27px;
+    border-radius: 8px;
+    padding-right: 1%;
+    padding-left: 1%;
+    font-size:calc(6px + 0.9vmax);
+    background-color: #F5EEDC;
+    color: #6e5736;
+    font-weight: bold;
+    box-shadow: 0px 0px 8px 3px #72727267;
+    max-width: 800px;
+    max-height: 40px;
+    border-width: 1px;
+    border-color: #6e57367c;
+}
+
+.loginBox input:focus{
+  outline: none !important;
+}
+
+.loginBox p{
+    margin: 0;
+    margin-top: 2%;
+}
+
+.loginBox h1{
+    font-size: 5vmin;
+    color: #6e5736;
+    margin: 0;
+    text-shadow: 2px 2px 6px #72727267;
+}
+
+.loginBox hr{
+    background-color: #d42b0d;
+    height: 2px;
+    width: 85%;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.loginWithEmail{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    margin-bottom: 3%;
+}
+
+.buttonsCancelLogin{
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
