@@ -65,7 +65,6 @@ const screenClick=()=>{
     <div  onClick={screenClick}>
       <div className='search'>
         <input placeholder='your destination...'></input>
-        <button>search</button>
       </div>
                       
       <div className='yourTripsCard'>
