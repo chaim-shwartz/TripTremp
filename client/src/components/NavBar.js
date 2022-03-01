@@ -4,16 +4,20 @@ import Cookies from 'universal-cookie';
 import { GoogleLogout } from 'react-google-login';
 import "../styles/NavBar.css"
 
+import { connect } from "react-redux"
+import {
+  changeShowProfileInfo,
+} from "../redux/Counter/actions"
 
-export default function NavBar(props) {
-
+function NavBar(props) {
     const cookies = new Cookies() //the cookies
     const navigate = useNavigate(); 
 
     const [showLogoutBtnGoogle, setShowLogoutBtnGoogle] = useState(false) //show logout button
     const clientId=process.env.REACT_APP_CLIENT_ID; //google client id
-    const [showProfileInfo, setshowProfileInfo] = useState(false);
+    const [showProfileInfo, setshowProfileInfo] = useState(props.show);
 
+    console.log(props)
     
     useEffect(() => {
         if (cookies.get("googleAccount")!==undefined) {
@@ -23,18 +27,25 @@ export default function NavBar(props) {
 
     const logoutSuccess = () => { // when logout success show alert and hide logout
         setShowLogoutBtnGoogle(false)
+        props.changeShowProfileInfo()
         cookies.remove("googleAccount")
         navigate('/login')
     }
     
     const logoutEmailBtn=()=>{   // logout from the email account
+      props.changeShowProfileInfo()
       cookies.remove("emailAccount")
       navigate('/login')
     }
     
     const clickAvatar=()=>{ //avatar button shows profile info
-      setshowProfileInfo(!showProfileInfo)
+      props.changeShowProfileInfo()
+
     }
+
+    useEffect(() => {      
+      setshowProfileInfo(props.show)
+    }, [props.show]);
 
 
 
@@ -47,6 +58,13 @@ export default function NavBar(props) {
               <p>{props.FirstName} {props.LastName}</p>
               <p>{props.Email}</p>
               <button>Edit Your Account</button>
+              {showLogoutBtnGoogle?<GoogleLogout
+                    clientId={clientId}
+                    buttonText="Logout from google"
+                    onLogoutSuccess={logoutSuccess}
+                    />:<button onClick={logoutEmailBtn}>
+                      Logout
+                    </button>}
             </div>:null}
             <div className='title'><h1>Welcome To TripTremp</h1></div>
 
@@ -67,13 +85,7 @@ export default function NavBar(props) {
                     <a className="nav-link" href="#">Link</a>
                   </li>
                   <li className="nav-item dropdown">
-                    {showLogoutBtnGoogle?<GoogleLogout
-                    clientId={clientId}
-                    buttonText="Logout from google"
-                    onLogoutSuccess={logoutSuccess}
-                    />:<button onClick={logoutEmailBtn}>
-                      Logout
-                    </button>}
+                    
                   </li>
                 </ul>
               </div>
@@ -83,3 +95,17 @@ export default function NavBar(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {
+    show: state.showProfileInfo.show,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeShowProfileInfo: () => dispatch(changeShowProfileInfo()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

@@ -5,9 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import NavBar from './NavBar';
 
-function HomePage() {
+import { connect } from "react-redux"
+import {
+  changeShowProfileInfo,
+} from "../redux/Counter/actions"
 
-  
+function HomePage(props) {
   const navigate = useNavigate(); 
   const cookies = new Cookies() //the cookies
   const [withEmail, setwithEmail] = useState(Boolean);
@@ -46,6 +49,10 @@ function HomePage() {
   
 const screenClick=()=>{
   // setshowProfileInfo(false)
+  if (props.show) {
+    props.changeShowProfileInfo()
+  }
+
 }
   
 
@@ -78,4 +85,17 @@ const screenClick=()=>{
   );
 }
 
-export default HomePage;
+const mapStateToProps = state => {
+  return {
+    show: state.showProfileInfo.show,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeShowProfileInfo: () => dispatch(changeShowProfileInfo()),
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
