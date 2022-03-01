@@ -75,23 +75,42 @@ app.post('/signup', function (req, res) {
       res.send({success: false,title :"Registration Failed!", reason: "Your TripTremp account ("+req.body.email+") is already registered, try to login to TripTremp"})
       emailInDB = false
     }
+  
     else
     {
-      const user = new EmailUsers({
-        firstName: req.body.FName,
-        lastName: req.body.LName,
-        email: req.body.email,
-        password: req.body.password,
-        withGoogle: req.body.withGoogle,
-        // verified: true,
-        // date: 'yeah'
-      });
-      user.save();
-      res.send({success: true, title: "Registration success!", reason: "Welcome to TripTremp, Your account successfully created. now you need to go to the login page for signing in and you will be able to use the app. enjoy!"})
-
+      GoogleUsers.find({},function (err, users) {  //get all the users from DB
+        if (err) {
+          console.log("erron in signup post")
+          console.log(err)
+        }
+        else{
+          users.forEach(user => { //check if one of the mails in DB are the same like the user
+            if(user.email === req.body.email){   //
+              emailInDB=true
+            }
+          });
+        }
+        if(emailInDB)
+        {
+          res.send({success: false,title :"Registration Failed!", reason: "Your TripTremp account ("+req.body.email+") is already registered with Google, try to login with Google."})
+          emailInDB = false
+        }
+      })
+      if (!emailInDB){
+        const user = new EmailUsers({
+          firstName: req.body.FName,
+          lastName: req.body.LName,
+          email: req.body.email,
+          password: req.body.password,
+          withGoogle: req.body.withGoogle,
+          // verified: true,
+          // date: 'yeah'
+        });
+        user.save();
+        res.send({success: true, title: "Registration success!", reason: "Welcome to TripTremp, Your account successfully created. now you need to go to the login page for signing in and you will be able to use the app. enjoy!"})    
+      }
     }
   })
-  
 })
 
 app.post('/login', function (req,res) {
@@ -122,14 +141,14 @@ app.post('/googlelogin', function (req,res) {
     if (err) {
       console.log(err)
     } else {
-      if (foundUser.length===0) {
+      if (foundUser===null) {
         const gUser = new GoogleUsers({
           firstName: req.body.name,
           lastName: req.body.family,
           email: req.body.email,
           googleID: req.body.googleID,
           imgUrl: req.body.profileImg,
-          withGoogle: false
+          withGoogle: true
         })
         gUser.save()
       }
