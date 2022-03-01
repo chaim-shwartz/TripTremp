@@ -8,6 +8,7 @@ function YourTripsCard(){
             <hr/>
             <div className="tripCardTrips">
                 <p >Gan Yavne  →  jerusalem</p>
+                <p> time </p>
             </div>
             <button>New Trip</button>
         </div>
