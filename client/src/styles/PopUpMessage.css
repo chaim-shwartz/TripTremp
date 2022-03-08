@@ -48,3 +48,7 @@
     border-width: 1px;
     border-color: #6e57367c;
 }
+
+.popWindow button:hover{
+    background-color: #e66852;
+}

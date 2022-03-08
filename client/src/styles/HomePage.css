@@ -49,6 +49,9 @@ body{
   border-width: 1px;
   border-color: #6e57367c;
 }
+.search button:hover{
+  background-color: #e66852;
+}
 
 
 

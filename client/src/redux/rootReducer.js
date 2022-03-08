@@ -7,6 +7,7 @@ import counterReducer from './Counter/reducer';
 const rootReducer = combineReducers({
 
     showProfileInfo: counterReducer,
+    showAddTripWindow: counterReducer,
 
 });
 

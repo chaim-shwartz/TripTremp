@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import { useNavigate } from "react-router-dom";
 import PopUpMessage from "./PopUpMessage";
 import NavBar from "./NavBar";
-
+import Notifications, {notify} from 'react-notify-toast';
 
 
 function LoginPage() {        // the login page  
@@ -15,6 +15,7 @@ function LoginPage() {        // the login page
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setpasswordInput] = useState("")
     const [showPopUp, setshowPopUp] = useState(false);
+    const [enableLoginBtn, setenableLoginBtn] = useState(true);
     const navigate = useNavigate(); 
     const cookies = new Cookies();
     const [popUpContent, setpopUpContent] = useState({              
@@ -23,13 +24,19 @@ function LoginPage() {        // the login page
         popUpExplain: "",
     });
 
-    useEffect(() => {
+    useEffect(() => {  //to check if there is cookies and then to log in for the user and go to the home page
         if(cookies.get("emailAccount")!==undefined){
             navigate('/')
         }
     },);
     
-    
+    useEffect(() => {  //function to enable the login btn if the email is good and there is a password
+        if (checkEmailValidate(emailInput) && passwordInput!=="") {
+            setenableLoginBtn(false)
+        }else{
+            setenableLoginBtn(true)
+        }
+    }, [passwordInput, emailInput]);
 
 
     const loginSuccess = (response) => { //when login success get the data and hide the login button)
@@ -63,27 +70,29 @@ function LoginPage() {        // the login page
 
     const loginWithEmailBtn=(event)=>{   //when user click on the login button
         event.preventDefault()
-        if(checkEmailValidate(emailInput)){
-            fetch(("http://localhost:5000/login"),{
-                method: "post",
-                headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-                body: JSON.stringify({email: emailInput, password: passwordInput, withGoogle: false})
-            })
-            .then(res=>res.json())
-            .then(data=>{
-                if (data.success) {
-                    cookies.set("emailAccount",{firstName: data.userFound.firstName, lastName: data.userFound.lastName, email: emailInput, password: passwordInput, userID: data.userFound._id},{ path: '/' })
-                    navigate('/')
-                }
-                else if(!data.success){
-                    setshowPopUp(true)
-                    setpopUpContent({
-                        popUpTitle: data.title,
-                        popUpExplain: data.reason
-                    })
-                }
-            })   
-        }
+        fetch(("http://localhost:5000/login"),{
+            method: "post",
+            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+            body: JSON.stringify({email: emailInput, password: passwordInput, withGoogle: false})
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if (data.success) {
+                cookies.set("emailAccount",{firstName: data.userFound.firstName, lastName: data.userFound.lastName, email: emailInput, password: passwordInput, userID: data.userFound._id},{ path: '/' })
+                navigate('/')
+            }
+            else if(!data.success){
+                // setshowPopUp(true)
+                // let myColor = { background: '#0E1717', text: "#FFFFFF" };
+                notify.show(data.title+": "+data.reason, "error", 6000);
+                // setpopUpContent({
+                //     popUpTitle: data.title,
+                //     popUpExplain: data.reason
+                // })
+            }
+        })   
+        // setEmailInput("")
+        setpasswordInput("")
         
     }
 
@@ -119,6 +128,8 @@ function LoginPage() {        // the login page
       
     return(
         <div>
+            <Notifications />
+
             <h1>TripTremp</h1>
             {!showPopUp?
             <form method="post">
@@ -134,7 +145,7 @@ function LoginPage() {        // the login page
                         <p>Password</p>
                         <input type={"password"} placeholder="Your Password:" name="password" value={passwordInput} onChange={handleChange}></input>
                         <div className="buttonsCancelLogin">
-                            <button onClick={loginWithEmailBtn}>Login</button>
+                            <button disabled={enableLoginBtn} onClick={loginWithEmailBtn}>Login</button>
                             <button onClick={cnacelShowLogin}>Cancel</button>
                         </div>
                     </div>
