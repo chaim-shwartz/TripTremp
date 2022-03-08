@@ -49,15 +49,6 @@ function YourTripsCard(props){
 
     return(
         <div className="tripCard">
-<<<<<<< HEAD
-            <h1>Your Trips</h1>
-            <hr/>
-            <div className="tripCardTrips">
-                <p >Gan Yavne  →  jerusalem</p>
-                <p> time </p>
-
-                
-=======
             <div>
                 <h1>Your Trips</h1>
                 <hr/>
@@ -75,7 +66,6 @@ function YourTripsCard(props){
                 }
                 
                 <button onClick={newTrip}>New Trip</button>
->>>>>>> development
             </div>
         </div>
     )
