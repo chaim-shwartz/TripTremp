@@ -44,6 +44,16 @@ h1{
     border-color: #6e57367c;
     margin: 3%;
 }
+.loginBox:disabled
+  button[disabled]{
+    border: 1px solid #999999;
+    background-color: #cccccc !important;
+    color: #666666;
+}
+
+.loginBox button:hover{
+    background-color: #e66852;
+}
 
 .loginBox input{
     width: 73%;

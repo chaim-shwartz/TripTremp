@@ -8,7 +8,9 @@ import NavBar from './NavBar';
 import { connect } from "react-redux"
 import {
   changeShowProfileInfo,
+  changeShowAddTripWindow
 } from "../redux/Counter/actions"
+import AddTripCard from './AddTripCard';
 
 function HomePage(props) {
   const navigate = useNavigate(); 
@@ -19,6 +21,17 @@ function HomePage(props) {
     LastName: "",
     Email: "",
   });
+
+  const [showAddWindow, setshowAddWindow] = useState(false);
+
+
+  const newTrip =()=>{  // the function to add or disable the add new trip window
+    setshowAddWindow(true)
+  }
+
+  console.log(props.showAddNewTrip)
+
+
   useEffect(() => {
     if (cookies.get("googleAccount")===undefined && cookies.get("emailAccount")===undefined){
       navigate('/login')
@@ -76,7 +89,8 @@ const screenClick=()=>{
       </div>
                       
       <div className='yourTripsCard'>
-          <YourTripsCard/>
+      {!props.showAddNewTrip?<YourTripsCard/>:
+      <AddTripCard/>}  
       </div>
     </div>
     
@@ -88,12 +102,15 @@ const screenClick=()=>{
 const mapStateToProps = state => {
   return {
     show: state.showProfileInfo.show,
+    showAddNewTrip: state.showAddTripWindow.showAddNewTrip,
+
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     changeShowProfileInfo: () => dispatch(changeShowProfileInfo()),
+    changeShowAddTripWindow: () => dispatch(changeShowAddTripWindow()),
 
   }
 }

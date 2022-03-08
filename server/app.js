@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(bodyparser.urlencoded({extended:true}));
 
 
-var emailInDB=false;
+/***********************************the login***************************************/
 
 
 const uri = process.env.MONGO_DB_URI;
@@ -131,13 +131,49 @@ app.post('/googlelogin', function (req,res) {
   EmailUsers.findOne({email: req.body.email}, function (err, userFound){ // check if the user is already register with email, and then need to merge the users
     if (err) {
       console.log(err)
-    } else {
+    } else if(userFound!==null){
       console.log(userFound.id)
     }
   })
 
 })
 
+
+/***********************************save the new card***************************************/
+const cardSchema = {
+  userId: String,
+  start: String,
+  destination: String,
+  dateTime: String,
+  peoples: Number,
+};
+
+const Cards = mongoose.model("card", cardSchema);
+
+app.post("/addnewtrip", function (req, res) {  
+  console.log(req.body)
+  const card=new Cards({  //save a new card from the user
+    userId: req.body.userID,
+    start: req.body.startLocation,
+    destination: req.body.destination,
+    dateTime: req.body.dateTime,
+    peoples: req.body.numberOfPeople,
+  })
+  card.save()
+})
+
+
+/***********************************get the user cards***************************************/
+app.post("/bringcards", function (req, res) {
+  console.log(req.body.userID)  
+  Cards.find({userId: req.body.userID}, function (err, cardsFound) {  
+    if (err) {
+      console.log(err)
+    } else if (cardsFound!==null){
+      res.send(cardsFound)
+    }
+  })
+})
 
 
 app.listen(5000, function () {
